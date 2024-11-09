@@ -12,7 +12,8 @@ namespace lexicon_university.Core.Entities
         public int Id { get; set; }
         public string Title { get; set; }
 
-
+        //Navigational properties
         public ICollection<Student> Students { get; set; }
+        public ICollection<Enrollment> Enrollments { get; set; }
     }
 }
