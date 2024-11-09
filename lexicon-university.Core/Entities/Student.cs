@@ -20,5 +20,8 @@ namespace lexicon_university.Core.Entities
 
         // Navigation property for the many-to-many relationship
         public ICollection<Enrollment> Enrollments { get; set; }
+
+        public ICollection<Course> Courses { get; set; }
+
     }
 }
