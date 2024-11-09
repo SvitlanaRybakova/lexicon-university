@@ -17,5 +17,8 @@ namespace lexicon_university.Core.Entities
 
         //Navigational property
         public Address Address { get; set; }
+
+        // Navigation property for the many-to-many relationship
+        public ICollection<Enrollment> Enrollments { get; set; }
     }
 }
