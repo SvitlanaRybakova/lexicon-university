@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace lexicon_university.Core.Entities
 {
-    internal class Enrollment
+    public class Enrollment
     {
         public int CourseId { get; set; }
         public int StudentId { get; set; }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace LexiconUniversity.Core.Entities
+namespace lexicon_university.Core.Entities
 {
     public class Course
     {
