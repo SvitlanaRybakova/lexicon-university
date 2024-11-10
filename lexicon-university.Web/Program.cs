@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using lexicon_university.Persistance.Data;
+using LexiconUniversity.Persistance;
+using lexicon_university.Web.Extentions;
 namespace lexicon_university.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<LexiconUniversityContext>(options =>
@@ -16,12 +18,18 @@ namespace lexicon_university.Web
 
             var app = builder.Build();
 
+
+
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+            }
+            else
+            {
+                await app.SeedDataAsync();
             }
 
             app.UseHttpsRedirection();
@@ -33,7 +41,7 @@ namespace lexicon_university.Web
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Students}/{action=Index}/{id?}");
 
             app.Run();
         }

@@ -23,4 +23,8 @@
     <ProjectReference Include="..\lexicon-university.Persistance\lexicon-university.Persistance.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\NewFolder1\" />
+  </ItemGroup>
+
 </Project>
