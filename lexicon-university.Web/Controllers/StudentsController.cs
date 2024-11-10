@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using lexicon_university.Core.Entities;
 using lexicon_university.Persistance.Data;
+using lexicon_university.Web.Models.ViewModels;
 
 namespace lexicon_university.Web.Controllers
 {
@@ -22,7 +23,15 @@ namespace lexicon_university.Web.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Student.ToListAsync());
+           var model = _context.Student/*.AsNoTracking()*/
+                .Select(s => new StudentIndexViewModel
+                {
+                    Id = s.Id,
+                    Avatar = s.Avatar,
+                    FullName = s.FullName,
+                    City = s.Address.City
+                });
+            return View(await model.ToListAsync());
         }
 
         // GET: Students/Details/5

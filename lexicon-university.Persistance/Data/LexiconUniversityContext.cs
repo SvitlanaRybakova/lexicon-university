@@ -13,6 +13,7 @@ namespace lexicon_university.Persistance.Data
         public LexiconUniversityContext(DbContextOptions<LexiconUniversityContext> options)
             : base(options)
         {
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking; // not track entities by default for all queries made through this context.
         }
 
         public DbSet<Student> Student { get; set; } = default!;
@@ -23,6 +24,7 @@ namespace lexicon_university.Persistance.Data
             //base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<Enrollment>().HasKey(e => new { e.CourseId, e.StudentId });
 
+            // Refactor: Separate code into distinct modules (new student config class)
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
         }
     }
