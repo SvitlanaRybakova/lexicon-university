@@ -9,31 +9,40 @@ using lexicon_university.Core.Entities;
 using lexicon_university.Persistance.Data;
 using lexicon_university.Web.Models.ViewModels;
 using Bogus.DataSets;
+using AutoMapper;
 
 namespace lexicon_university.Web.Controllers
 {
     public class StudentsController : Controller
     {
         private readonly LexiconUniversityContext _context;
+        private readonly IMapper mapper;
 
-        public StudentsController(LexiconUniversityContext context)
+        public StudentsController(LexiconUniversityContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
 
         // GET: Students
         public async Task<IActionResult> Index()
         {
-           var model = _context.Student/*.AsNoTracking()*/
-                .OrderByDescending(s => s.Id)
-                .Select(s => new StudentIndexViewModel
-                {
-                    Id = s.Id,
-                    Avatar = s.Avatar,
-                    FullName = s.FullName,
-                    City = s.Address.City
-                })
-                .Take(5);
+          
+           //var model = _context.Student/*.AsNoTracking()*/
+           //     .OrderByDescending(s => s.Id)
+           //     .Select(s => new StudentIndexViewModel
+           //     {
+           //         Id = s.Id,
+           //         Avatar = s.Avatar,
+           //         FullName = s.FullName,
+           //         City = s.Address.City
+           //     })
+           // .Take(5);
+           
+            var model = mapper.ProjectTo<StudentIndexViewModel>(_context.Student)
+               .OrderByDescending(s => s.Id)
+               .Take(5);
+
             return View(await model.ToListAsync());
         }
 
@@ -70,19 +79,23 @@ namespace lexicon_university.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var student = new Student
-                {
-                    Avatar = "https://thispersondoesnotexist.com/",
-                    FirstName = viewModel.FirstName,
-                    LastName = viewModel.LastName,
-                    Email = viewModel.Email,
-                    Address = new Core.Entities.Address
-                    {
-                        Street = viewModel.Street,
-                        ZipCode = viewModel.ZipCode,
-                        City = viewModel.City
-                    }
-                };
+                //var student = new Student
+                //{
+                //    Avatar = "https://thispersondoesnotexist.com/",
+                //    FirstName = viewModel.FirstName,
+                //    LastName = viewModel.LastName,
+                //    Email = viewModel.Email,
+                //    Address = new Core.Entities.Address
+                //    {
+                //        Street = viewModel.Street,
+                //        ZipCode = viewModel.ZipCode,
+                //        City = viewModel.City
+                //    }
+                //};
+
+             
+                var student = mapper.Map<Student>(viewModel);
+                student.Avatar = "https://thispersondoesnotexist.com/";
 
                 _context.Add(student);
                 await _context.SaveChangesAsync();
