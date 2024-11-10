@@ -7,12 +7,12 @@
         public string FullName { get; set; }
         public string City { get; set; }
 
-        public IEnumerable<CourseInfo> CourseInfos { get; set; } = new List<CourseInfo>();
+        public IEnumerable<CourseInfo> CourseInfos { get; set; }
+    }
 
-        public class CourseInfo
-        {
-            public int Grade { get; set; }
-            public string CourseName { get; set; }
-        }
+    public class CourseInfo
+    {
+        public int Grade { get; set; }
+        public string CourseName { get; set; }
     }
 }

@@ -20,6 +20,8 @@ namespace lexicon_university.Web
             // Automapping as a service needs to be registered
             builder.Services.AddAutoMapper(typeof(UniversityMapping));
 
+            builder.Services.AddScoped<IGetCoursesService, GetCoursesService>();
+
             var app = builder.Build();
 
 

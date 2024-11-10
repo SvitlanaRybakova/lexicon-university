@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using lexicon_university.Core.Entities;
-using lexicon_university.Persistance.Data;
-using lexicon_university.Web.Models.ViewModels;
-using Bogus.DataSets;
 using AutoMapper;
 
 namespace lexicon_university.Web.Controllers
@@ -79,6 +70,8 @@ namespace lexicon_university.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Option 1 - basic implementation
+                //Random rnd = new Random();
                 //var student = new Student
                 //{
                 //    Avatar = "https://thispersondoesnotexist.com/",
@@ -91,12 +84,32 @@ namespace lexicon_university.Web.Controllers
                 //        ZipCode = viewModel.ZipCode,
                 //        City = viewModel.City
                 //    }
+
                 //};
+                //foreach (var courseId in viewModel.SelectedCourses)
+                //{
+                //    student.Enrollments.Add(new Enrollment
+                //    {
+                //        CourseId = courseId,
+                //        Grade = rnd.Next(1, 6)
+                //    });
+                //}
 
-             
+                // option 2 - not working
+                //Random rnd = new Random();
+                //var student = mapper.Map<Student>(viewModel);
+                //student.Avatar = "https://thispersondoesnotexist.com/";
+                //foreach (var courseId in viewModel.SelectedCourses)
+                //{
+                //    student.Enrollments.Add(new Enrollment
+                //    {
+                //        CourseId = courseId,
+                //        Grade = rnd.Next(1, 6)
+                //    });
+                //}
+
+                // Option 3 
                 var student = mapper.Map<Student>(viewModel);
-                student.Avatar = "https://thispersondoesnotexist.com/";
-
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
