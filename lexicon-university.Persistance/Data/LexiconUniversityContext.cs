@@ -28,5 +28,15 @@ namespace lexicon_university.Persistance.Data
             // Refactor: Separate code into distinct modules (new student config class)
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
         }
+        // set the current data/time when the student table has been edited
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            ChangeTracker.DetectChanges();
+            foreach (var entry in ChangeTracker.Entries<Student>().Where(e => e.State == EntityState.Modified))
+            {
+                entry.Property("Edited").CurrentValue = DateTime.Now;
+            }
+            return base.SaveChangesAsync(cancellationToken);
+        }
     }
 }

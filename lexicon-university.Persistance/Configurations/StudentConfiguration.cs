@@ -22,6 +22,8 @@ namespace lexicon_university.Persistance.Configurations
                 e => e.HasOne(e => e.Course).WithMany(c => c.Enrollments),
                 e => e.HasOne(e => e.Student).WithMany(s => s.Enrollments),
                 e => e.HasKey(e => new { e.CourseId, e.StudentId }));
+
+            builder.Property<DateTime>("Edited");
         }
     }
 }

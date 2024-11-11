@@ -19,7 +19,6 @@ namespace lexicon_university.Web.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-
             //var model = _context.Student/*.AsNoTracking()*/
             //     .OrderByDescending(s => s.Id)
             //     .Select(s => new StudentIndexViewModel
@@ -106,6 +105,13 @@ namespace lexicon_university.Web.Controllers
                 return NotFound();
             }
 
+            ModelState.Remove("Avatar");
+            ModelState.Remove("FirstName");
+            ModelState.Remove("LastName");
+            ModelState.Remove("Email");
+            ModelState.Remove("Address");
+            ModelState.Remove("Enrollments");
+            ModelState.Remove("Courses");
             if (ModelState.IsValid)
             {
                 try
