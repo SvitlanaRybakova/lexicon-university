@@ -30,6 +30,9 @@ namespace lexicon_university.Web.Controllers
             //     })
             // .Take(5);
 
+            // Accessing Shadow Property
+            var res = _context.Student.Where(s => EF.Property<DateTime>(s, "Edited") >= DateTime.Now.AddDays(-1));
+
             var model = mapper.ProjectTo<StudentIndexViewModel>(_context.Student)
                .OrderByDescending(s => s.Id)
                .Take(5);
