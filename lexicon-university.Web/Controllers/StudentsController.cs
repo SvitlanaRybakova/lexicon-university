@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using lexicon_university.Web.Filters;
 
 namespace lexicon_university.Web.Controllers
 {
@@ -18,18 +19,18 @@ namespace lexicon_university.Web.Controllers
         // GET: Students
         public async Task<IActionResult> Index()
         {
-          
-           //var model = _context.Student/*.AsNoTracking()*/
-           //     .OrderByDescending(s => s.Id)
-           //     .Select(s => new StudentIndexViewModel
-           //     {
-           //         Id = s.Id,
-           //         Avatar = s.Avatar,
-           //         FullName = s.FullName,
-           //         City = s.Address.City
-           //     })
-           // .Take(5);
-           
+
+            //var model = _context.Student/*.AsNoTracking()*/
+            //     .OrderByDescending(s => s.Id)
+            //     .Select(s => new StudentIndexViewModel
+            //     {
+            //         Id = s.Id,
+            //         Avatar = s.Avatar,
+            //         FullName = s.FullName,
+            //         City = s.Address.City
+            //     })
+            // .Take(5);
+
             var model = mapper.ProjectTo<StudentIndexViewModel>(_context.Student)
                .OrderByDescending(s => s.Id)
                .Take(5);
@@ -66,55 +67,15 @@ namespace lexicon_university.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ModelStateIsValid] // refactor code, divide for modules
         public async Task<IActionResult> Create(StudentCreateViewModel viewModel)
         {
-            if (ModelState.IsValid)
-            {
-                // Option 1 - basic implementation
-                //Random rnd = new Random();
-                //var student = new Student
-                //{
-                //    Avatar = "https://thispersondoesnotexist.com/",
-                //    FirstName = viewModel.FirstName,
-                //    LastName = viewModel.LastName,
-                //    Email = viewModel.Email,
-                //    Address = new Core.Entities.Address
-                //    {
-                //        Street = viewModel.Street,
-                //        ZipCode = viewModel.ZipCode,
-                //        City = viewModel.City
-                //    }
+            // Option 3 
+            var student = mapper.Map<Student>(viewModel);
+            _context.Add(student);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
 
-                //};
-                //foreach (var courseId in viewModel.SelectedCourses)
-                //{
-                //    student.Enrollments.Add(new Enrollment
-                //    {
-                //        CourseId = courseId,
-                //        Grade = rnd.Next(1, 6)
-                //    });
-                //}
-
-                // option 2 - not working
-                //Random rnd = new Random();
-                //var student = mapper.Map<Student>(viewModel);
-                //student.Avatar = "https://thispersondoesnotexist.com/";
-                //foreach (var courseId in viewModel.SelectedCourses)
-                //{
-                //    student.Enrollments.Add(new Enrollment
-                //    {
-                //        CourseId = courseId,
-                //        Grade = rnd.Next(1, 6)
-                //    });
-                //}
-
-                // Option 3 
-                var student = mapper.Map<Student>(viewModel);
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(viewModel);
         }
 
         // GET: Students/Edit/5

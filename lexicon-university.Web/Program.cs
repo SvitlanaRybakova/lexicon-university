@@ -17,6 +17,13 @@ namespace lexicon_university.Web
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // way to apply [ModelStateIsValid] globally in all controllers
+            //builder.Services.AddControllersWithViews(
+            //    opt =>
+            //    {
+            //        opt.Filters.Add(typeof(ModelStateIsValid));
+            //    });
+
             // Automapping as a service needs to be registered
             builder.Services.AddAutoMapper(typeof(UniversityMapping));
 
