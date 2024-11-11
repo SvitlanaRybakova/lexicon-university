@@ -45,8 +45,8 @@ namespace lexicon_university.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Student
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var student = await mapper.ProjectTo<StudentDetailsViewModel>(_context.Student)
+                .FirstOrDefaultAsync(s => s.Id == id);
             if (student == null)
             {
                 return NotFound();

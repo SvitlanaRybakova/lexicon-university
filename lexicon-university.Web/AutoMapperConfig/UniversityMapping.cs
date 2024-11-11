@@ -27,9 +27,7 @@ namespace lexicon_university.Web.AutoMapperConfig
                         CourseId = courseId,
                         Grade = new Random().Next(1, 6) // Generates a random grade between 1 and 5
                     }).ToList())
-    );
-
-
+                   );
 
             CreateMap<Student, StudentIndexViewModel>()
                 .ForMember(
@@ -40,6 +38,15 @@ namespace lexicon_university.Web.AutoMapperConfig
                     CourseName = e.Course.Title
                 })))
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Address.City));
+
+
+            CreateMap<Student, StudentDetailsViewModel>()
+               .ForMember(
+               dest => dest.Attending,
+               from => from.MapFrom(s => s.Courses.Count))
+               .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Address.City))
+               .ForMember(dest => dest.Street, opt => opt.MapFrom(src => src.Address.Street))
+               .ForMember(dest => dest.ZipCode, opt => opt.MapFrom(src => src.Address.ZipCode));
         }
     }
 }
