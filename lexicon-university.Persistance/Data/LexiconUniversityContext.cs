@@ -27,7 +27,10 @@ namespace lexicon_university.Persistance.Data
 
             // Refactor: Separate code into distinct modules (new student config class)
             modelBuilder.ApplyConfiguration(new StudentConfiguration());
+
+            modelBuilder.Entity<Course>().ToTable("Course", c => c.IsTemporal());
         }
+
         // set the current data/time when the student table has been edited
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
